@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "rollup": "rollup public/src/script.js --file public/dist/main.js --format iife --watch"
+    "rollup": "rollup public/src/script.js --file public/dist/main.js --format iife --watch",
+    "netlify" : "run netlify build"
   },
   "keywords": [],
   "author": "Ghost <safeplace12345@gmail.com>",
