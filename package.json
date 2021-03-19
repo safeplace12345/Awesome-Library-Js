@@ -6,13 +6,19 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "rollup": "rollup public/src/script.js --file public/dist/main.js --format iife --watch",
-    "netlify" : "run netlify build"
+    "netlify": "netlify build",
+    "netlify:serve": "netlify-lambda serve functions",
+    "netlify:build": "netlify-lambda build functions",
+    "netlify:deploy" : "npm run rollup; npm run netlify; npm run netlify:build"
+
   },
   "keywords": [],
   "author": "Ghost <safeplace12345@gmail.com>",
   "license": "ISC",
   "dependencies": {},
   "devDependencies": {
+    "axios": "^0.21.1",
+    "netlify-lambda": "^2.0.3",
     "rollup": "^2.41.5"
   }
 }

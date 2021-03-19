@@ -1,6 +1,16 @@
 # Install netlify CLI globally
 npm install netlify-cli -g
 ### OR ### 
+# Serveless by netlify
+
+npm i netlify-lambda --save-dev
+
+"netlify:serve" : "netlify-lambda serve functions",
+    "netlify:build":
+    "netlify-lambda build functions"
+
+
+    
 yarn global add netlify-cli
 
 Getting Started with Netlify CLI
