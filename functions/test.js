@@ -13,7 +13,7 @@ exports.handler = function(event,handler,callback){
         console.log(res);
         callback(null, {
           statusCode: 200,
-          body: "Hell yah....",
+          body: res.json(),
         });
       })
       .catch((err) => console.log(err));
