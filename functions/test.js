@@ -1,11 +1,14 @@
 const axios = require('axios')
 exports.handler = function(event,handler,callback){
-    axios({
-      method: "post",
-      url: `http://requestbin.net/r/9g5e6bts
+    axios
+      .post(
+        `http://requestbin.net/r/9g5e6bts
       `,
-      body: { name: "James" },
-    })
+        {
+          name : "john",
+          gender : "Boy",
+        }
+      )
       .then((res) => {
         console.log(res);
         callback(null, {
