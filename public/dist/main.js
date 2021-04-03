@@ -31,14 +31,13 @@
       console.log(cred);
     });
   };
-  const logInAndOut = (authorizer,database) => {
+  const logInAndOut = (authorizer, database) => {
     const loginLinks = document.querySelectorAll(".login");
     const logOutLinks = document.querySelectorAll(".logout");
     authorizer.onAuthStateChanged((user) => {
       if (user) {
         loginLinks.forEach((link) => (link.style.display = "none"));
         logOutLinks.forEach((link) => (link.style.display = "block"));
-
       } else {
         loginLinks.forEach((link) => (link.style.display = "block"));
         logOutLinks.forEach((link) => (link.style.display = "none"));
@@ -47,10 +46,51 @@
   };
 
   const Auth = {
-      loginUser,
-      logOut,
-      signUpNewUser,
-      logInAndOut
+    loginUser,
+    logOut,
+    signUpNewUser,
+    logInAndOut,
+  };
+
+  const deleteBook$1 = (book, booksContainer, database) => {
+    let colBooks = document.querySelectorAll(".col-book");
+    let test = Array.from(colBooks).find((colbook) =>
+      colbook.contains(book.target)
+    );
+    database.collection("Awesome-Library").doc(test.id).delete();
+    return booksContainer.removeChild(test);
+  };
+
+  const appendBooks = (doc , booksContainer) => {
+    let newBook = doc.data();
+    const btn = document.createElement("button");
+    btn.innerText = "Delete Book";
+    btn.classList.add('btn');
+    btn.classList.add('btn-lg');
+    btn.classList.add('btn-danger');
+    btn.classList.add('m-3');
+    btn.addEventListener("click", (e) => {
+      deleteBook(e);
+    });
+    const div = document.createElement("div");
+    div.classList.add("col-sm-4");
+    div.classList.add("col-book");
+    div.setAttribute("id", doc.id);
+    let html = `
+            <div class="card">
+                <img src="./dd64da585bc57cb05e5fd4d8ce873f57.png" alt="" class="img-fluid">
+                <div class="card-header">
+                    <h1 class="text-mute">${newBook.title}</h1>
+                </div>
+                <div class="card-body">
+                    <h6>${newBook.author}</h6>
+                    <p class="card-text">${newBook.status}</p>
+                    </div>
+                    </div>
+                `;
+    div.insertAdjacentHTML("afterbegin", html);
+    div.insertAdjacentElement("beforeend", btn);
+    booksContainer.appendChild(div);
   };
 
   firebase.initializeApp(firebaseConfig);
@@ -86,19 +126,10 @@
   const deletebtns = document.querySelectorAll(".delete");
   deletebtns.forEach((deleteBtn) => {
     deleteBtn.addEventListener("click", () => {
-      deleteBook(deleteBtn);
+      deleteBook$1(deleteBtn,booksContainer,DB);
     });
   });
 
-  function deleteBook(book) {
-    let colBooks = document.querySelectorAll(".col-book");
-    let test = Array.from(colBooks).find((colbook) =>
-      colbook.contains(book.target)
-    );
-    console.log(test);
-    DB.collection("Awesome-Library").doc(test.id).delete();
-    return booksContainer.removeChild(test);
-  }
   const booksForm = document.querySelector("#books-form");
   booksForm.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -119,9 +150,8 @@
   });
 
   DB.collection("Awesome-Library").onSnapshot((snapshot) => {
-    booksContainer.innerHTML = ''
     snapshot.docs.forEach((doc) => {
-      appendBooks(doc);
+      appendBooks(doc , booksContainer);
     });
   });
 
@@ -137,37 +167,11 @@
     }
     return "and read !!";
   };
-  const appendBooks = (doc) => {
-    let newBook = doc.data();
-    const btn = document.createElement("button");
-    btn.innerText = "Delete";
-    btn.addEventListener("click", (e) => {
-      deleteBook(e);
-    });
-    const div = document.createElement("div");
-    div.classList.add("col-sm-4");
-    div.classList.add("col-book");
-    div.setAttribute("id", doc.id);
-    let html = `
-            <div class="card">
-                <img src="./dd64da585bc57cb05e5fd4d8ce873f57.png" alt="" class="img-fluid">
-                <div class="card-header">
-                    <h1 class="text-mute">${newBook.title}</h1>
-                </div>
-                <div class="card-body">
-                    <h6>${newBook.author}</h6>
-                    <p class="card-text">${newBook.status}</p>
-                    </div>
-                    </div>
-                `;
-    div.insertAdjacentHTML("afterbegin", html);
-    div.insertAdjacentElement("beforeend", btn);
-    booksContainer.appendChild(div);
-  };
+
   const dltbutton = document.querySelectorAll(".delete");
   dltbutton.forEach((btn) =>
     btn.addEventListener("click", (e) => {
-      deleteBook(e);
+      deleteBook$1(e);
     })
   );
 

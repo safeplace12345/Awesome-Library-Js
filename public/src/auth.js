@@ -11,7 +11,7 @@ const logOut = (fn) => {
   fn.signOut().then(() => {
     console.log("User left......");
   });
-}
+};
 const signUpNewUser = (fn) => {
   const signInform = document.querySelector(".signin-form");
   const email = signInform["email"].value;
@@ -20,14 +20,13 @@ const signUpNewUser = (fn) => {
     console.log(cred);
   });
 };
-const logInAndOut = (authorizer,database) => {
+const logInAndOut = (authorizer, database) => {
   const loginLinks = document.querySelectorAll(".login");
   const logOutLinks = document.querySelectorAll(".logout");
   authorizer.onAuthStateChanged((user) => {
     if (user) {
       loginLinks.forEach((link) => (link.style.display = "none"));
       logOutLinks.forEach((link) => (link.style.display = "block"));
-
     } else {
       loginLinks.forEach((link) => (link.style.display = "block"));
       logOutLinks.forEach((link) => (link.style.display = "none"));
@@ -36,8 +35,8 @@ const logInAndOut = (authorizer,database) => {
 };
 
 export const Auth = {
-    loginUser,
-    logOut,
-    signUpNewUser,
-    logInAndOut
-}
+  loginUser,
+  logOut,
+  signUpNewUser,
+  logInAndOut,
+};
